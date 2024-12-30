@@ -13,7 +13,13 @@ connectDB();
 const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(express.json());
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(cookieParser());
 
 //API Endpoints
@@ -21,8 +27,7 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Kaam Khojau V2 API IS RUNNING !");
 });
-// app.use("/api-v1/auth", authRouter);
-// app.use("/api-v1/user", userRouter);
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
