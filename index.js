@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(userRouter);
 //error middleware
 connectDB();
-app.use(errorMiddleware);
+// app.use(errorMiddleware);
 
 //API Endpoints
 
