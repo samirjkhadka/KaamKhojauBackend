@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectDB from "./config/dbConfig.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,7 @@ connectDB();
 const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: allowedOrigins,
@@ -21,6 +23,10 @@ app.use(
   })
 );
 app.use(cookieParser());
+
+//error middleware
+
+app.use(errorMiddleware);
 
 //API Endpoints
 
