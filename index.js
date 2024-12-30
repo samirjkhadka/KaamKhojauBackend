@@ -6,11 +6,16 @@ import dotenv from "dotenv";
 import connectDB from "./config/dbConfig.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
+import cloudinary from "cloudinary";
+import fileUpload from "express-fileupload";
+import userRouter from "./routes/userRoutes.js";
+
 const app = express();
 dotenv.config();
+app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp/" }));
 
 const port = process.env.PORT || 5000;
-connectDB();
+
 const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(express.json());
@@ -23,12 +28,18 @@ app.use(
   })
 );
 app.use(cookieParser());
-
+app.use(userRouter);
 //error middleware
-
+connectDB();
 app.use(errorMiddleware);
 
 //API Endpoints
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 app.get("/", (req, res) => {
   res.send("Kaam Khojau V2 API IS RUNNING !");
